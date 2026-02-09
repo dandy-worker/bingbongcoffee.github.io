@@ -1,36 +1,386 @@
-body {
-    background-color: #FFF4BC; /* Soft Banana Yellow */
-    font-family: 'Comic Sans MS', 'Arial', sans-serif; /* Keep it whimsical */
-    padding: 20px;
-    color: #222;
+/* ===== Variables (repo color scheme) ===== */
+:root {
+    --bg: #FFF4BC;
+    --card-bg: #fff;
+    --accent: #FFB7B2;
+    --accent-strong: #4E342E;
+    --text: #222;
+    --border: #000;
+    --shadow: 8px 8px 0px #000;
+    --shadow-sm: 4px 4px 0px #000;
 }
 
+/* ===== Base ===== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg);
+    font-family: 'Nunito', 'Comic Sans MS', system-ui, sans-serif;
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ===== Header ===== */
+.main-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--border);
+}
+
+.brand {
+    font-weight: 800;
+    font-size: 1.25rem;
+}
+
+.nav {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.nav a {
+    font-weight: 600;
+    padding: 0.25rem 0;
+}
+
+.nav a:hover {
+    text-decoration: underline;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--accent-strong);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: 3px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    font-weight: 700;
+    font-family: inherit;
+    font-size: 1rem;
+    border-radius: 0;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--border);
+}
+
+.btn:active {
+    box-shadow: 0 0 0 var(--border);
+    transform: translate(4px, 4px);
+}
+
+.btn-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* ===== Card (repo signature style) ===== */
 .card {
-    background: white;
-    border: 4px solid #000;
-    box-shadow: 8px 8px 0px #000; /* The signature cartoon shadow */
-    padding: 20px;
-    margin-bottom: 30px;
-    max-width: 600px;
+    background: var(--card-bg);
+    border: 4px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+.accent {
+    background-color: var(--accent);
+}
+
+/* ===== Hero ===== */
+.hero {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 4rem;
+    text-align: center;
+}
+
+.hero-kicker {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 0.75rem;
+    color: var(--accent-strong);
+}
+
+.hero-title {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 1rem;
+}
+
+.hero-accent {
+    display: inline-block;
+    background: var(--accent);
+    padding: 0.1em 0.35em;
+    border: 2px solid var(--border);
+    box-shadow: 3px 3px 0 var(--border);
+}
+
+.hero-sub {
+    font-size: 1.1rem;
+    margin: 0 0 1.75rem;
+    max-width: 560px;
     margin-left: auto;
     margin-right: auto;
 }
 
-.accent { background-color: #FFB7B2; } /* A pop of coral */
-
-.logo { width: 100px; border-radius: 50%; border: 3px solid #000; }
-
-.btn {
-    background: #4E342E;
-    color: white;
-    padding: 10px 20px;
-    border: 3px solid #000;
-    box-shadow: 4px 4px 0px #000;
-    cursor: pointer;
-    font-weight: bold;
+/* ===== Sections ===== */
+.section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem;
 }
 
-.btn:active {
-    box-shadow: 0px 0px 0px #000;
-    transform: translate(4px, 4px);
+.section-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 800;
+    text-align: center;
+    margin: 0 0 0.5rem;
+}
+
+.section-sub {
+    text-align: center;
+    margin: 0 0 2rem;
+    font-size: 1.05rem;
+}
+
+/* ===== Features grid (Shadcn-style cards) ===== */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    transition: transform 0.15s ease;
+}
+
+.feature-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--border);
+}
+
+.feature-card-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    color: var(--accent-strong);
+}
+
+.feature-card-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.feature-card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+}
+
+.feature-card-text {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text);
+    opacity: 0.95;
+}
+
+/* ===== Pillars table ===== */
+.pillars-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 4px solid var(--border);
+    box-shadow: var(--shadow);
+    background: var(--card-bg);
+    overflow: hidden;
+}
+
+.pillars-row {
+    display: contents;
+}
+
+.pillar-cell {
+    padding: 1.25rem 1rem;
+    border-right: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.pillar-cell:last-child {
+    border-right: none;
+}
+
+.pillars-header .pillar-cell {
+    font-weight: 800;
+    font-size: 1.05rem;
+    background: var(--bg);
+    border-bottom: 4px solid var(--border);
+}
+
+.pillar-cell-highlight {
+    background: var(--accent);
+}
+
+.pillars-header .pillar-cell-highlight {
+    background: var(--accent);
+}
+
+.pillar-icon {
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-strong);
+}
+
+.pillar-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.pillar-cell p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* ===== CTA section ===== */
+.cta-section {
+    padding-bottom: 4rem;
+}
+
+.cta-card {
+    max-width: 560px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.75rem;
+}
+
+.cta-text {
+    margin: 0 0 1.5rem;
+    font-size: 1rem;
+}
+
+/* ===== Footer ===== */
+.footer {
+    text-align: center;
+    padding: 1.5rem 1.25rem;
+    font-size: 0.9rem;
+    border-top: 3px solid var(--border);
+    background: var(--card-bg);
+    box-shadow: 0 -4px 0 var(--border);
+}
+
+.footer p {
+    margin: 0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pillars-table {
+        grid-template-columns: 1fr;
+    }
+
+    .pillar-cell {
+        border-right: none;
+        border-bottom: 2px solid var(--border);
+    }
+
+    .pillar-cell:last-child {
+        border-bottom: 2px solid var(--border);
+    }
+
+    .pillars-header .pillar-cell {
+        display: none;
+    }
+
+    .pillar-cell[role="cell"]::before {
+        font-weight: 800;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .pillar-cell[role="cell"]:nth-child(4)::before {
+        content: "Coffee Exploration";
+    }
+
+    .pillar-cell[role="cell"]:nth-child(5)::before {
+        content: "Community Education";
+    }
+
+    .pillar-cell[role="cell"]:nth-child(6)::before {
+        content: "Coffee Excellence";
+    }
+}
+
+@media (max-width: 600px) {
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero {
+        padding: 2rem 1rem 3rem;
+    }
+
+    .section {
+        padding: 2rem 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 280px;
+    }
 }

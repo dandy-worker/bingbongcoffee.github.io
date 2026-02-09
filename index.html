@@ -3,30 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split Banana Coffee</title>
+    <title>Bing Bong Coffee — Partner with us</title>
+    <meta name="description" content="We connect roasters and brands with coffee lovers. Partner with Bing Bong for exploration, education, and excellence.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="card main-header">
-        <img src="banana_logo.png" alt="Banana Barista" class="logo">
-        <h1>Split Banana</h1>
+    <header class="main-header">
+        <a href="/" class="logo-link">
+            <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo">
+            <span class="brand">Bing Bong</span>
+        </a>
+        <nav class="nav" aria-label="Main">
+            <a href="#features">What we do</a>
+            <a href="#pillars">Our pillars</a>
+        </nav>
     </header>
 
     <main>
-        <section id="splits" class="card">
-            <h2>The "Splits"</h2>
-            <p>Splitting the bill shouldn't be a slippery slope. Use the <strong>Peeling Rule</strong>: The person who ordered the double-shot pays for the extra jitteriness.</p>
-            <button class="btn">Calculate a Split</button>
+        <section class="hero">
+            <p class="hero-kicker">Roasters & brands — this one’s for you</p>
+            <h1 class="hero-title">Your beans deserve a <span class="hero-accent">bingbong</span> moment.</h1>
+            <p class="hero-sub">We turn great coffee into great stories. Partner with us to reach curious drinkers, teach your craft, and grow your brand without the boring bits.</p>
+            <a href="#partner" class="btn btn-primary">
+                <i data-lucide="handshake" class="btn-icon" aria-hidden="true"></i>
+                Partner with us
+            </a>
         </section>
 
-        <section id="about" class="card accent">
-            <h2>About the Barista</h2>
-            <p>Born in a tropical grove but raised by a rogue espresso machine, our Banana Barista believes that coffee is best served with a side of whimsy and zero drama.</p>
+        <section id="features" class="section features">
+            <h2 class="section-title">Why partner with Bing Bong?</h2>
+            <p class="section-sub">We handle the fun. You bring the beans.</p>
+            <div class="features-grid">
+                <article class="feature-card card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <i data-lucide="sparkles"></i>
+                    </div>
+                    <h3 class="feature-card-title">Reach new drinkers</h3>
+                    <p class="feature-card-text">Get in front of folks who actually want to try new roasts and origins — no endless scrolling, just real curiosity.</p>
+                </article>
+                <article class="feature-card card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3 class="feature-card-title">Tell your story</h3>
+                    <p class="feature-card-text">We spotlight your process, your people, and your values so the community gets why your coffee is special.</p>
+                </article>
+                <article class="feature-card card">
+                    <div class="feature-card-icon" aria-hidden="true">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <h3 class="feature-card-title">Grow without the grind</h3>
+                    <p class="feature-card-text">Focus on roasting; we handle discovery, education, and connection so your brand does the talking.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="pillars" class="section pillars">
+            <h2 class="section-title">What we’re about</h2>
+            <div class="pillars-table" role="table" aria-label="Our pillars">
+                <div class="pillars-row pillars-header" role="row">
+                    <div class="pillar-cell" role="columnheader">Coffee Exploration</div>
+                    <div class="pillar-cell pillar-cell-highlight" role="columnheader">Community Education</div>
+                    <div class="pillar-cell" role="columnheader">Coffee Excellence</div>
+                </div>
+                <div class="pillars-row" role="row">
+                    <div class="pillar-cell" role="cell">
+                        <i data-lucide="compass" class="pillar-icon" aria-hidden="true"></i>
+                        <p>New origins, new roasters, new brews. We help people discover what’s next.</p>
+                    </div>
+                    <div class="pillar-cell pillar-cell-highlight" role="cell">
+                        <i data-lucide="graduation-cap" class="pillar-icon" aria-hidden="true"></i>
+                        <p>Workshops, tastings, and real talk about how coffee gets from farm to cup. Learning that sticks.</p>
+                    </div>
+                    <div class="pillar-cell" role="cell">
+                        <i data-lucide="award" class="pillar-icon" aria-hidden="true"></i>
+                        <p>Quality first. We celebrate roasters and brands that care about doing it right.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="partner" class="section cta-section">
+            <div class="cta-card card accent">
+                <h2 class="cta-title">Ready to bingbong with us?</h2>
+                <p class="cta-text">Roasters and brands: let’s get your coffee in front of the right people. No stuffy pitches — just good vibes and real partnerships.</p>
+                <a href="mailto:partner@bingbong.coffee?subject=Partnership%20inquiry" class="btn btn-primary">
+                    <i data-lucide="mail" class="btn-icon" aria-hidden="true"></i>
+                    Get in touch
+                </a>
+            </div>
         </section>
     </main>
 
-    <footer>
-        <p>© 2026 Crafted with Potassium & Caffeine</p>
+    <footer class="footer">
+        <p>© 2026 Bing Bong Coffee. Crafted with potassium & caffeine.</p>
     </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
