@@ -10,15 +10,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page">
     <header class="main-header">
-        <a href="/" class="logo-link">
+        <a href="index.html" class="logo-link">
             <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo">
             <span class="brand">Bing Bong</span>
         </a>
         <nav class="nav" aria-label="Main">
-            <a href="#features">What we do</a>
-            <a href="#pillars">Our pillars</a>
+            <a href="index.html#features">What we do</a>
+            <a href="index.html#pillars">Our pillars</a>
+            <a href="splits.html">Splits</a>
         </nav>
     </header>
 
@@ -96,6 +97,22 @@
                 </a>
             </div>
         </section>
+
+        <section id="splits-ref" class="section">
+            <div class="card splits-ref-card">
+                <div class="splits-ref-content">
+                    <i data-lucide="split-square-vertical" class="splits-ref-icon" aria-hidden="true"></i>
+                    <div>
+                        <h2 class="splits-ref-title">Splitting the bill?</h2>
+                        <p class="splits-ref-text">Use our <strong>Splits</strong> tool to calculate who owes what — no drama, no fuzzy math. The Peeling Rule approved.</p>
+                        <a href="splits.html" class="btn btn-secondary">
+                            <i data-lucide="calculator" class="btn-icon" aria-hidden="true"></i>
+                            Open Splits
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
@@ -105,6 +122,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         lucide.createIcons();
+        if (window.location.hash) {
+            var target = document.querySelector(window.location.hash);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
     </script>
 </body>
 </html>

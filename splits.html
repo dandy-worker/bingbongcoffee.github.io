@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splits — Bing Bong Coffee</title>
+    <meta name="description" content="Calculate and log coffee purchase splits. Who owes what? No drama, no fuzzy math.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page">
+    <header class="main-header">
+        <a href="index.html" class="logo-link">
+            <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo">
+            <span class="brand">Bing Bong</span>
+        </a>
+        <nav class="nav" aria-label="Main">
+            <a href="index.html#features">What we do</a>
+            <a href="index.html#pillars">Our pillars</a>
+            <a href="splits.html" class="active">Splits</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="splits-layout">
+            <section class="card">
+                <h1 class="splits-heading">The Splits</h1>
+                <p class="splits-intro">Splitting the bill shouldn’t be a slippery slope. Enter the total and how many people — we’ll do the rest. <strong>Peeling Rule</strong> friendly.</p>
+
+                <form class="splits-form" id="splits-form" aria-label="Calculate split">
+                    <label for="total">Total amount ($)</label>
+                    <input type="number" id="total" name="total" min="0" step="0.01" placeholder="e.g. 24.50" required>
+
+                    <label for="people">Number of people</label>
+                    <input type="number" id="people" name="people" min="1" max="99" placeholder="e.g. 3" required>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i data-lucide="calculator" class="btn-icon" aria-hidden="true"></i>
+                        Calculate split
+                    </button>
+                </form>
+
+                <div class="splits-result" id="splits-result" aria-live="polite" hidden></div>
+                <button type="button" class="btn btn-secondary" id="splits-save-btn" hidden>
+                    <i data-lucide="bookmark-plus" class="btn-icon" aria-hidden="true"></i>
+                    Log this split
+                </button>
+            </section>
+
+            <section class="card">
+                <h2 class="splits-log-title">Your split log</h2>
+                <p class="splits-log-desc">Past splits you’ve logged. Stored in this browser so you can remember who paid what.</p>
+                <ul class="splits-log" id="splits-log" aria-label="Logged splits"></ul>
+                <p class="splits-log-empty" id="splits-log-empty">No splits logged yet. Calculate one above and hit “Log this split”.</p>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Bing Bong Coffee. Crafted with potassium & caffeine.</p>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+
+        (function () {
+            var form = document.getElementById('splits-form');
+            var resultEl = document.getElementById('splits-result');
+            var saveBtn = document.getElementById('splits-save-btn');
+            var logList = document.getElementById('splits-log');
+            var logEmpty = document.getElementById('splits-log-empty');
+            var STORAGE_KEY = 'bingbong-splits-log';
+
+            function getLog() {
+                try {
+                    var raw = localStorage.getItem(STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function setLog(items) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+                renderLog();
+            }
+
+            function renderLog() {
+                var items = getLog();
+                logList.innerHTML = '';
+                logEmpty.hidden = items.length > 0;
+                items.forEach(function (item) {
+                    var li = document.createElement('li');
+                    var date = new Date(item.date);
+                    var dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+                    li.innerHTML = '<span class="splits-log-meta">' + dateStr + ' &middot; ' + item.people + ' people</span><span class="splits-log-amount">$' + item.perPerson.toFixed(2) + ' each</span>';
+                    logList.appendChild(li);
+                });
+            }
+
+            var lastResult = null;
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var total = parseFloat(document.getElementById('total').value, 10);
+                var people = parseInt(document.getElementById('people').value, 10);
+                if (isNaN(total) || total <= 0 || isNaN(people) || people < 1) return;
+                var perPerson = total / people;
+                lastResult = { total: total, people: people, perPerson: perPerson, date: new Date().toISOString() };
+                resultEl.textContent = 'Each person pays $' + perPerson.toFixed(2);
+                resultEl.hidden = false;
+                saveBtn.hidden = false;
+            });
+
+            saveBtn.addEventListener('click', function () {
+                if (!lastResult) return;
+                var log = getLog();
+                log.unshift({
+                    total: lastResult.total,
+                    people: lastResult.people,
+                    perPerson: lastResult.perPerson,
+                    date: lastResult.date
+                });
+                setLog(log);
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            });
+
+            renderLog();
+        })();
+    </script>
+</body>
+</html>

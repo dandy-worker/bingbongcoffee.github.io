@@ -17,6 +17,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     background-color: var(--bg);
     font-family: 'Nunito', 'Comic Sans MS', system-ui, sans-serif;
@@ -31,6 +35,17 @@ a {
     text-decoration: none;
 }
 
+/* ===== Layout (space for multiple pages) ===== */
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page main {
+    flex: 1;
+}
+
 /* ===== Header ===== */
 .main-header {
     display: flex;
@@ -39,6 +54,7 @@ a {
     padding: 1rem 1.25rem;
     max-width: 1200px;
     margin: 0 auto;
+    width: 100%;
     flex-wrap: wrap;
     gap: 0.75rem;
 }
@@ -108,6 +124,16 @@ a {
 .btn-icon {
     width: 1.25rem;
     height: 1.25rem;
+}
+
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--accent-strong);
+    border: 3px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--bg);
 }
 
 /* ===== Card (repo signature style) ===== */
@@ -309,6 +335,42 @@ a {
     font-size: 1rem;
 }
 
+/* Splits reference block on homepage */
+.splits-ref-card {
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.splits-ref-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.splits-ref-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--accent-strong);
+    flex-shrink: 0;
+}
+
+.splits-ref-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.splits-ref-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 0.35rem;
+}
+
+.splits-ref-text {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+}
+
 /* ===== Footer ===== */
 .footer {
     text-align: center;
@@ -371,6 +433,10 @@ a {
         align-items: flex-start;
     }
 
+    .nav {
+        flex-wrap: wrap;
+    }
+
     .hero {
         padding: 2rem 1rem 3rem;
     }
@@ -383,4 +449,114 @@ a {
         width: 100%;
         max-width: 280px;
     }
+}
+
+/* ===== Splits page ===== */
+.splits-layout {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+}
+
+.splits-layout .card {
+    margin-bottom: 1.5rem;
+}
+
+.splits-heading {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+}
+
+.splits-intro {
+    margin: 0 0 1.5rem;
+    font-size: 1rem;
+}
+
+.splits-log-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0 0 0.35rem;
+}
+
+.splits-log-desc {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.splits-log-empty {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+#splits-log-empty[hidden] {
+    display: none;
+}
+
+.splits-form label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+
+.splits-form input {
+    width: 100%;
+    max-width: 16rem;
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+    font-size: 1rem;
+    border: 3px solid var(--border);
+    box-shadow: 2px 2px 0 var(--border);
+    margin-bottom: 1rem;
+}
+
+.splits-form input:focus {
+    outline: none;
+    box-shadow: 2px 2px 0 var(--accent-strong);
+}
+
+.splits-result {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-top: 1rem;
+}
+
+#splits-save-btn {
+    margin-top: 0.75rem;
+}
+
+.splits-log {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.splits-log li {
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.splits-log li:last-child {
+    border-bottom: none;
+}
+
+.splits-log .splits-log-meta {
+    font-size: 0.9rem;
+    color: var(--text);
+    opacity: 0.9;
+}
+
+.splits-log .splits-log-amount {
+    font-weight: 700;
+}
+
+.nav a.active {
+    text-decoration: underline;
 }
