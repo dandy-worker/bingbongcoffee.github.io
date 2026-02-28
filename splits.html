@@ -4,128 +4,427 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Splits — Bing Bong Coffee</title>
-    <meta name="description" content="Calculate and log coffee purchase splits. Who owes what? No drama, no fuzzy math.">
+    <meta name="description" content="Calculate and log coffee purchase splits. Split evenly or by custom gram amounts. No drama, no fuzzy math.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="banana_logo.png" type="image/png">
 </head>
 <body class="page">
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header class="main-header">
         <a href="index.html" class="logo-link">
-            <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo">
+            <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo" width="48" height="48">
             <span class="brand">Bing Bong</span>
         </a>
-        <nav class="nav" aria-label="Main">
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+            <i data-lucide="menu" class="nav-toggle-icon" aria-hidden="true"></i>
+        </button>
+        <nav class="nav" id="main-nav" aria-label="Main">
             <a href="index.html#features">What we do</a>
+            <a href="index.html#how-it-works">How it works</a>
             <a href="index.html#pillars">Our pillars</a>
             <a href="splits.html" class="active">Splits</a>
         </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <div class="splits-layout">
             <section class="card">
                 <h1 class="splits-heading">The Splits</h1>
-                <p class="splits-intro">Splitting the bill shouldn’t be a slippery slope. Enter the total and how many people — we’ll do the rest. <strong>Peeling Rule</strong> friendly.</p>
+                <p class="splits-intro">Splitting the bill shouldn't be a slippery slope. Go even or split by grams — we'll do the math. <strong>Peeling Rule</strong> friendly.</p>
 
-                <form class="splits-form" id="splits-form" aria-label="Calculate split">
-                    <label for="total">Total amount ($)</label>
-                    <input type="number" id="total" name="total" min="0" step="0.01" placeholder="e.g. 24.50" required>
-
-                    <label for="people">Number of people</label>
-                    <input type="number" id="people" name="people" min="1" max="99" placeholder="e.g. 3" required>
-
-                    <button type="submit" class="btn btn-primary">
-                        <i data-lucide="calculator" class="btn-icon" aria-hidden="true"></i>
-                        Calculate split
+                <div class="splits-tabs" role="tablist" aria-label="Split mode">
+                    <button role="tab" class="splits-tab active" id="tab-even" aria-selected="true" aria-controls="panel-even">
+                        <i data-lucide="equal" class="splits-tab-icon" aria-hidden="true"></i>
+                        Even split
                     </button>
-                </form>
+                    <button role="tab" class="splits-tab" id="tab-grams" aria-selected="false" aria-controls="panel-grams">
+                        <i data-lucide="scale" class="splits-tab-icon" aria-hidden="true"></i>
+                        By grams
+                    </button>
+                </div>
 
-                <div class="splits-result" id="splits-result" aria-live="polite" hidden></div>
-                <button type="button" class="btn btn-secondary" id="splits-save-btn" hidden>
-                    <i data-lucide="bookmark-plus" class="btn-icon" aria-hidden="true"></i>
-                    Log this split
-                </button>
+                <div id="panel-even" role="tabpanel" aria-labelledby="tab-even">
+                    <form class="splits-form" id="even-form" aria-label="Calculate even split">
+                        <label for="even-total">Total amount ($)</label>
+                        <input type="number" id="even-total" name="total" min="0" step="0.01" placeholder="e.g. 24.50" required>
+
+                        <label for="even-people">Number of people</label>
+                        <input type="number" id="even-people" name="people" min="1" max="99" placeholder="e.g. 3" required>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="calculator" class="btn-icon" aria-hidden="true"></i>
+                            Calculate split
+                        </button>
+                    </form>
+
+                    <div class="splits-result" id="even-result" aria-live="polite" hidden></div>
+                    <div class="splits-actions" id="even-actions" hidden>
+                        <button type="button" class="btn btn-secondary" id="even-save-btn">
+                            <i data-lucide="bookmark-plus" class="btn-icon" aria-hidden="true"></i>
+                            Log this split
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="even-copy-btn">
+                            <i data-lucide="copy" class="btn-icon" aria-hidden="true"></i>
+                            Copy result
+                        </button>
+                    </div>
+                </div>
+
+                <div id="panel-grams" role="tabpanel" aria-labelledby="tab-grams" hidden>
+                    <form class="splits-form" id="grams-form" aria-label="Calculate gram-based split">
+                        <div class="grams-base-fields">
+                            <div class="grams-field-group">
+                                <label for="grams-price">Total price ($)</label>
+                                <input type="number" id="grams-price" name="price" min="0" step="0.01" placeholder="e.g. 32.00" required>
+                            </div>
+                            <div class="grams-field-group">
+                                <label for="grams-total">Total grams</label>
+                                <input type="number" id="grams-total" name="totalGrams" min="1" step="1" placeholder="e.g. 250" required>
+                            </div>
+                        </div>
+                        <p class="grams-rate" id="grams-rate" hidden></p>
+
+                        <fieldset class="grams-people-fieldset">
+                            <legend>People &amp; grams</legend>
+                            <div id="grams-people-list" class="grams-people-list">
+                                <div class="grams-person-row" data-index="0">
+                                    <input type="text" class="grams-person-name" placeholder="Name" aria-label="Person 1 name">
+                                    <input type="number" class="grams-person-grams" placeholder="Grams" min="0" step="1" aria-label="Person 1 grams" required>
+                                    <button type="button" class="grams-remove-btn" aria-label="Remove person" hidden>
+                                        <i data-lucide="x" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="grams-person-row" data-index="1">
+                                    <input type="text" class="grams-person-name" placeholder="Name" aria-label="Person 2 name">
+                                    <input type="number" class="grams-person-grams" placeholder="Grams" min="0" step="1" aria-label="Person 2 grams" required>
+                                    <button type="button" class="grams-remove-btn" aria-label="Remove person" hidden>
+                                        <i data-lucide="x" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" id="grams-add-person">
+                                <i data-lucide="user-plus" class="btn-icon" aria-hidden="true"></i>
+                                Add person
+                            </button>
+                        </fieldset>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="calculator" class="btn-icon" aria-hidden="true"></i>
+                            Calculate split
+                        </button>
+                    </form>
+
+                    <div class="splits-result" id="grams-result" aria-live="polite" hidden></div>
+                    <div class="grams-breakdown" id="grams-breakdown" hidden>
+                        <table class="grams-table">
+                            <thead>
+                                <tr>
+                                    <th>Person</th>
+                                    <th>Grams</th>
+                                    <th>Share</th>
+                                    <th>Owes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grams-table-body"></tbody>
+                        </table>
+                    </div>
+                    <div class="splits-actions" id="grams-actions" hidden>
+                        <button type="button" class="btn btn-secondary" id="grams-save-btn">
+                            <i data-lucide="bookmark-plus" class="btn-icon" aria-hidden="true"></i>
+                            Log this split
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="grams-copy-btn">
+                            <i data-lucide="copy" class="btn-icon" aria-hidden="true"></i>
+                            Copy result
+                        </button>
+                    </div>
+                </div>
             </section>
 
             <section class="card">
                 <h2 class="splits-log-title">Your split log</h2>
-                <p class="splits-log-desc">Past splits you’ve logged. Stored in this browser so you can remember who paid what.</p>
+                <p class="splits-log-desc">Past splits you've logged. Stored in this browser so you can remember who paid what.</p>
                 <ul class="splits-log" id="splits-log" aria-label="Logged splits"></ul>
-                <p class="splits-log-empty" id="splits-log-empty">No splits logged yet. Calculate one above and hit “Log this split”.</p>
+                <p class="splits-log-empty" id="splits-log-empty">No splits logged yet. Calculate one above and hit "Log this split".</p>
+                <button type="button" class="btn btn-secondary btn-sm" id="clear-log-btn" hidden>
+                    <i data-lucide="trash-2" class="btn-icon" aria-hidden="true"></i>
+                    Clear log
+                </button>
             </section>
         </div>
     </main>
 
     <footer class="footer">
-        <p>© 2026 Bing Bong Coffee. Crafted with potassium & caffeine.</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick links</h4>
+                <a href="index.html#features">What we do</a>
+                <a href="index.html#how-it-works">How it works</a>
+                <a href="index.html#pillars">Our pillars</a>
+                <a href="splits.html">Splits</a>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Get in touch</h4>
+                <a href="mailto:partner@bingbong.coffee">partner@bingbong.coffee</a>
+                <a href="mailto:hello@bingbong.coffee">hello@bingbong.coffee</a>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Follow along</h4>
+                <a href="#" aria-label="Instagram">Instagram</a>
+                <a href="#" aria-label="TikTok">TikTok</a>
+                <a href="#" aria-label="Twitter / X">Twitter / X</a>
+            </div>
+        </div>
+        <p class="footer-copy">&copy; 2026 Bing Bong Coffee. Crafted with potassium &amp; caffeine.</p>
     </footer>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.475.0"></script>
     <script>
         lucide.createIcons();
 
         (function () {
-            var form = document.getElementById('splits-form');
-            var resultEl = document.getElementById('splits-result');
-            var saveBtn = document.getElementById('splits-save-btn');
+            var toggle = document.getElementById('nav-toggle');
+            var nav = document.getElementById('main-nav');
+            toggle.addEventListener('click', function () {
+                var open = nav.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', open);
+            });
+            nav.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    nav.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        })();
+
+        (function () {
+            var STORAGE_KEY = 'bingbong-splits-log';
             var logList = document.getElementById('splits-log');
             var logEmpty = document.getElementById('splits-log-empty');
-            var STORAGE_KEY = 'bingbong-splits-log';
+            var clearLogBtn = document.getElementById('clear-log-btn');
 
             function getLog() {
-                try {
-                    var raw = localStorage.getItem(STORAGE_KEY);
-                    return raw ? JSON.parse(raw) : [];
-                } catch (e) {
-                    return [];
-                }
+                try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+                catch (e) { return []; }
             }
-
             function setLog(items) {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
                 renderLog();
             }
-
             function renderLog() {
                 var items = getLog();
                 logList.innerHTML = '';
                 logEmpty.hidden = items.length > 0;
+                clearLogBtn.hidden = items.length === 0;
                 items.forEach(function (item) {
                     var li = document.createElement('li');
                     var date = new Date(item.date);
                     var dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-                    li.innerHTML = '<span class="splits-log-meta">' + dateStr + ' &middot; ' + item.people + ' people</span><span class="splits-log-amount">$' + item.perPerson.toFixed(2) + ' each</span>';
+                    var detail = item.mode === 'grams'
+                        ? dateStr + ' &middot; ' + item.people + ' people &middot; ' + item.totalGrams + 'g'
+                        : dateStr + ' &middot; ' + item.people + ' people';
+                    var amount = item.mode === 'grams'
+                        ? '$' + item.total.toFixed(2) + ' total'
+                        : '$' + item.perPerson.toFixed(2) + ' each';
+                    li.innerHTML = '<span class="splits-log-meta">' + detail + '</span><span class="splits-log-amount">' + amount + '</span>';
                     logList.appendChild(li);
                 });
             }
 
-            var lastResult = null;
-
-            form.addEventListener('submit', function (e) {
-                e.preventDefault();
-                var total = parseFloat(document.getElementById('total').value, 10);
-                var people = parseInt(document.getElementById('people').value, 10);
-                if (isNaN(total) || total <= 0 || isNaN(people) || people < 1) return;
-                var perPerson = total / people;
-                lastResult = { total: total, people: people, perPerson: perPerson, date: new Date().toISOString() };
-                resultEl.textContent = 'Each person pays $' + perPerson.toFixed(2);
-                resultEl.hidden = false;
-                saveBtn.hidden = false;
+            clearLogBtn.addEventListener('click', function () {
+                if (confirm('Clear all logged splits?')) {
+                    setLog([]);
+                }
             });
 
-            saveBtn.addEventListener('click', function () {
-                if (!lastResult) return;
-                var log = getLog();
-                log.unshift({
-                    total: lastResult.total,
-                    people: lastResult.people,
-                    perPerson: lastResult.perPerson,
-                    date: lastResult.date
+            function animateResult(el) {
+                el.classList.remove('result-pop');
+                void el.offsetWidth;
+                el.classList.add('result-pop');
+            }
+
+            function copyText(text, btn) {
+                navigator.clipboard.writeText(text).then(function () {
+                    var orig = btn.innerHTML;
+                    btn.innerHTML = '<i data-lucide="check" class="btn-icon" aria-hidden="true"></i> Copied!';
+                    if (typeof lucide !== 'undefined') lucide.createIcons();
+                    setTimeout(function () { btn.innerHTML = orig; if (typeof lucide !== 'undefined') lucide.createIcons(); }, 1500);
                 });
+            }
+
+            /* --- Tabs --- */
+            var tabs = document.querySelectorAll('.splits-tab');
+            tabs.forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    tabs.forEach(function (t) {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                        document.getElementById(t.getAttribute('aria-controls')).hidden = true;
+                    });
+                    tab.classList.add('active');
+                    tab.setAttribute('aria-selected', 'true');
+                    document.getElementById(tab.getAttribute('aria-controls')).hidden = false;
+                });
+            });
+
+            /* --- Even split --- */
+            var evenForm = document.getElementById('even-form');
+            var evenResult = document.getElementById('even-result');
+            var evenActions = document.getElementById('even-actions');
+            var evenSaveBtn = document.getElementById('even-save-btn');
+            var evenCopyBtn = document.getElementById('even-copy-btn');
+            var lastEven = null;
+
+            evenForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var total = parseFloat(document.getElementById('even-total').value);
+                var people = parseInt(document.getElementById('even-people').value, 10);
+                if (isNaN(total) || total <= 0 || isNaN(people) || people < 1) return;
+                var perPerson = total / people;
+                lastEven = { total: total, people: people, perPerson: perPerson, mode: 'even', date: new Date().toISOString() };
+                evenResult.textContent = 'Each person pays $' + perPerson.toFixed(2);
+                evenResult.hidden = false;
+                evenActions.hidden = false;
+                animateResult(evenResult);
+            });
+
+            evenSaveBtn.addEventListener('click', function () {
+                if (!lastEven) return;
+                var log = getLog();
+                log.unshift(lastEven);
                 setLog(log);
+            });
+
+            evenCopyBtn.addEventListener('click', function () {
+                if (!lastEven) return;
+                copyText('Each person pays $' + lastEven.perPerson.toFixed(2) + ' ($' + lastEven.total.toFixed(2) + ' split ' + lastEven.people + ' ways)', evenCopyBtn);
+            });
+
+            /* --- Gram-based split --- */
+            var gramsForm = document.getElementById('grams-form');
+            var gramsPriceInput = document.getElementById('grams-price');
+            var gramsTotalInput = document.getElementById('grams-total');
+            var gramsRateEl = document.getElementById('grams-rate');
+            var gramsPeopleList = document.getElementById('grams-people-list');
+            var gramsResult = document.getElementById('grams-result');
+            var gramsBreakdown = document.getElementById('grams-breakdown');
+            var gramsTableBody = document.getElementById('grams-table-body');
+            var gramsActions = document.getElementById('grams-actions');
+            var gramsSaveBtn = document.getElementById('grams-save-btn');
+            var gramsCopyBtn = document.getElementById('grams-copy-btn');
+            var addPersonBtn = document.getElementById('grams-add-person');
+            var lastGrams = null;
+
+            function updateRate() {
+                var price = parseFloat(gramsPriceInput.value);
+                var grams = parseFloat(gramsTotalInput.value);
+                if (!isNaN(price) && price > 0 && !isNaN(grams) && grams > 0) {
+                    gramsRateEl.textContent = '$' + (price / grams).toFixed(4) + ' per gram';
+                    gramsRateEl.hidden = false;
+                } else {
+                    gramsRateEl.hidden = true;
+                }
+            }
+            gramsPriceInput.addEventListener('input', updateRate);
+            gramsTotalInput.addEventListener('input', updateRate);
+
+            function updateRemoveButtons() {
+                var rows = gramsPeopleList.querySelectorAll('.grams-person-row');
+                rows.forEach(function (row) {
+                    row.querySelector('.grams-remove-btn').hidden = rows.length <= 2;
+                });
+            }
+
+            addPersonBtn.addEventListener('click', function () {
+                var rows = gramsPeopleList.querySelectorAll('.grams-person-row');
+                var idx = rows.length;
+                var div = document.createElement('div');
+                div.className = 'grams-person-row';
+                div.setAttribute('data-index', idx);
+                div.innerHTML = '<input type="text" class="grams-person-name" placeholder="Name" aria-label="Person ' + (idx + 1) + ' name">'
+                    + '<input type="number" class="grams-person-grams" placeholder="Grams" min="0" step="1" aria-label="Person ' + (idx + 1) + ' grams" required>'
+                    + '<button type="button" class="grams-remove-btn" aria-label="Remove person"><i data-lucide="x" aria-hidden="true"></i></button>';
+                gramsPeopleList.appendChild(div);
+                div.querySelector('.grams-remove-btn').addEventListener('click', function () {
+                    div.remove();
+                    updateRemoveButtons();
+                });
+                updateRemoveButtons();
                 if (typeof lucide !== 'undefined') lucide.createIcons();
+            });
+
+            gramsPeopleList.querySelectorAll('.grams-remove-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    btn.closest('.grams-person-row').remove();
+                    updateRemoveButtons();
+                });
+            });
+
+            gramsForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var price = parseFloat(gramsPriceInput.value);
+                var totalGrams = parseFloat(gramsTotalInput.value);
+                if (isNaN(price) || price <= 0 || isNaN(totalGrams) || totalGrams <= 0) return;
+
+                var rows = gramsPeopleList.querySelectorAll('.grams-person-row');
+                var people = [];
+                var sumGrams = 0;
+                var valid = true;
+                rows.forEach(function (row, i) {
+                    var name = row.querySelector('.grams-person-name').value.trim() || ('Person ' + (i + 1));
+                    var g = parseFloat(row.querySelector('.grams-person-grams').value);
+                    if (isNaN(g) || g < 0) { valid = false; return; }
+                    sumGrams += g;
+                    people.push({ name: name, grams: g });
+                });
+                if (!valid || sumGrams <= 0) return;
+
+                gramsTableBody.innerHTML = '';
+                people.forEach(function (p) {
+                    var share = p.grams / sumGrams;
+                    var owes = share * price;
+                    p.share = share;
+                    p.owes = owes;
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = '<td>' + p.name + '</td><td>' + p.grams + 'g</td><td>' + (share * 100).toFixed(1) + '%</td><td>$' + owes.toFixed(2) + '</td>';
+                    gramsTableBody.appendChild(tr);
+                });
+
+                gramsResult.textContent = sumGrams > totalGrams
+                    ? 'Heads up: claimed grams (' + sumGrams + 'g) exceed the bag (' + totalGrams + 'g).'
+                    : sumGrams < totalGrams
+                        ? (totalGrams - sumGrams) + 'g unaccounted for. Showing split for ' + sumGrams + 'g of $' + price.toFixed(2) + '.'
+                        : 'Perfect split across ' + people.length + ' people.';
+                gramsResult.hidden = false;
+                gramsBreakdown.hidden = false;
+                gramsActions.hidden = false;
+                animateResult(gramsResult);
+
+                lastGrams = {
+                    mode: 'grams',
+                    total: price,
+                    totalGrams: totalGrams,
+                    claimedGrams: sumGrams,
+                    people: people.length,
+                    breakdown: people.map(function (p) { return { name: p.name, grams: p.grams, owes: p.owes }; }),
+                    date: new Date().toISOString()
+                };
+            });
+
+            gramsSaveBtn.addEventListener('click', function () {
+                if (!lastGrams) return;
+                var log = getLog();
+                log.unshift(lastGrams);
+                setLog(log);
+            });
+
+            gramsCopyBtn.addEventListener('click', function () {
+                if (!lastGrams) return;
+                var lines = lastGrams.breakdown.map(function (p) { return p.name + ': ' + p.grams + 'g — $' + p.owes.toFixed(2); });
+                copyText('Gram split ($' + lastGrams.total.toFixed(2) + ', ' + lastGrams.totalGrams + 'g):\n' + lines.join('\n'), gramsCopyBtn);
             });
 
             renderLog();

@@ -9,21 +9,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="banana_logo.png" type="image/png">
 </head>
 <body class="page">
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <header class="main-header">
         <a href="index.html" class="logo-link">
-            <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo">
+            <img src="banana_logo.png" alt="Bing Bong Coffee" class="logo" width="48" height="48">
             <span class="brand">Bing Bong</span>
         </a>
-        <nav class="nav" aria-label="Main">
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="main-nav" aria-label="Toggle menu">
+            <i data-lucide="menu" class="nav-toggle-icon" aria-hidden="true"></i>
+        </button>
+        <nav class="nav" id="main-nav" aria-label="Main">
             <a href="index.html#features">What we do</a>
+            <a href="index.html#how-it-works">How it works</a>
             <a href="index.html#pillars">Our pillars</a>
             <a href="splits.html">Splits</a>
         </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <section class="hero">
             <p class="hero-kicker">Roasters & brands — this one’s for you</p>
             <h1 class="hero-title">Your beans deserve a <span class="hero-accent">bingbong</span> moment.</h1>
@@ -38,27 +44,58 @@
             <h2 class="section-title">Why partner with Bing Bong?</h2>
             <p class="section-sub">We handle the fun. You bring the beans.</p>
             <div class="features-grid">
-                <article class="feature-card card">
+                <article class="feature-card card reveal">
                     <div class="feature-card-icon" aria-hidden="true">
                         <i data-lucide="sparkles"></i>
                     </div>
                     <h3 class="feature-card-title">Reach new drinkers</h3>
                     <p class="feature-card-text">Get in front of folks who actually want to try new roasts and origins — no endless scrolling, just real curiosity.</p>
                 </article>
-                <article class="feature-card card">
+                <article class="feature-card card reveal">
                     <div class="feature-card-icon" aria-hidden="true">
                         <i data-lucide="users"></i>
                     </div>
                     <h3 class="feature-card-title">Tell your story</h3>
                     <p class="feature-card-text">We spotlight your process, your people, and your values so the community gets why your coffee is special.</p>
                 </article>
-                <article class="feature-card card">
+                <article class="feature-card card reveal">
                     <div class="feature-card-icon" aria-hidden="true">
                         <i data-lucide="trending-up"></i>
                     </div>
                     <h3 class="feature-card-title">Grow without the grind</h3>
                     <p class="feature-card-text">Focus on roasting; we handle discovery, education, and connection so your brand does the talking.</p>
                 </article>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="section">
+            <h2 class="section-title">How it works</h2>
+            <p class="section-sub">Three steps. Zero boring bits.</p>
+            <div class="steps-grid">
+                <div class="step-card card reveal">
+                    <span class="step-number">1</span>
+                    <div class="step-card-icon" aria-hidden="true">
+                        <i data-lucide="message-circle"></i>
+                    </div>
+                    <h3 class="step-card-title">Reach out</h3>
+                    <p class="step-card-text">Drop us a line. Tell us about your beans, your brand, and what makes you tick.</p>
+                </div>
+                <div class="step-card card reveal">
+                    <span class="step-number">2</span>
+                    <div class="step-card-icon" aria-hidden="true">
+                        <i data-lucide="pen-tool"></i>
+                    </div>
+                    <h3 class="step-card-title">We plan together</h3>
+                    <p class="step-card-text">We craft a spotlight plan — tastings, stories, community moments — all tailored to your brand.</p>
+                </div>
+                <div class="step-card card reveal">
+                    <span class="step-number">3</span>
+                    <div class="step-card-icon" aria-hidden="true">
+                        <i data-lucide="rocket"></i>
+                    </div>
+                    <h3 class="step-card-title">Launch &amp; grow</h3>
+                    <p class="step-card-text">Your coffee hits the community. New fans, real conversations, and growth that sticks.</p>
+                </div>
             </div>
         </section>
 
@@ -87,8 +124,39 @@
             </div>
         </section>
 
+        <section id="partners" class="section">
+            <h2 class="section-title">Partner spotlight</h2>
+            <p class="section-sub">Don't take our word for it — hear from our partners.</p>
+            <div class="testimonials-grid">
+                <blockquote class="testimonial-card card reveal">
+                    <i data-lucide="quote" class="testimonial-icon" aria-hidden="true"></i>
+                    <p class="testimonial-text">Bing Bong helped us reach coffee lovers who genuinely care about where their beans come from. Our small-batch roasts found their people.</p>
+                    <footer class="testimonial-footer">
+                        <strong>Mara &amp; Jun</strong>
+                        <span>Sunrise Roasters</span>
+                    </footer>
+                </blockquote>
+                <blockquote class="testimonial-card card reveal">
+                    <i data-lucide="quote" class="testimonial-icon" aria-hidden="true"></i>
+                    <p class="testimonial-text">The community tastings were a game changer. People got to experience our blend in person and the feedback loop was incredible.</p>
+                    <footer class="testimonial-footer">
+                        <strong>Lena K.</strong>
+                        <span>Copper Kettle Co.</span>
+                    </footer>
+                </blockquote>
+                <blockquote class="testimonial-card card reveal">
+                    <i data-lucide="quote" class="testimonial-icon" aria-hidden="true"></i>
+                    <p class="testimonial-text">We went from a garage operation to stocking three local cafes — all because Bing Bong told our story the right way.</p>
+                    <footer class="testimonial-footer">
+                        <strong>Dev Patel</strong>
+                        <span>Nightowl Beans</span>
+                    </footer>
+                </blockquote>
+            </div>
+        </section>
+
         <section id="partner" class="section cta-section">
-            <div class="cta-card card accent">
+            <div class="cta-card card accent reveal">
                 <h2 class="cta-title">Ready to bingbong with us?</h2>
                 <p class="cta-text">Roasters and brands: let’s get your coffee in front of the right people. No stuffy pitches — just good vibes and real partnerships.</p>
                 <a href="mailto:partner@bingbong.coffee?subject=Partnership%20inquiry" class="btn btn-primary">
@@ -97,31 +165,97 @@
                 </a>
             </div>
         </section>
-
-        <section id="splits-ref" class="section">
-            <div class="card splits-ref-card">
-                <div class="splits-ref-content">
-                    <i data-lucide="split-square-vertical" class="splits-ref-icon" aria-hidden="true"></i>
-                    <div>
-                        <h2 class="splits-ref-title">Splitting the bill?</h2>
-                        <p class="splits-ref-text">Use our <strong>Splits</strong> tool to calculate who owes what — no drama, no fuzzy math. The Peeling Rule approved.</p>
-                        <a href="splits.html" class="btn btn-secondary">
-                            <i data-lucide="calculator" class="btn-icon" aria-hidden="true"></i>
-                            Open Splits
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i data-lucide="arrow-up" aria-hidden="true"></i>
+    </button>
+
     <footer class="footer">
-        <p>© 2026 Bing Bong Coffee. Crafted with potassium & caffeine.</p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 class="footer-heading">Quick links</h4>
+                <a href="index.html#features">What we do</a>
+                <a href="index.html#how-it-works">How it works</a>
+                <a href="index.html#pillars">Our pillars</a>
+                <a href="splits.html">Splits</a>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Get in touch</h4>
+                <a href="mailto:partner@bingbong.coffee">partner@bingbong.coffee</a>
+                <a href="mailto:hello@bingbong.coffee">hello@bingbong.coffee</a>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-heading">Follow along</h4>
+                <a href="#" aria-label="Instagram">Instagram</a>
+                <a href="#" aria-label="TikTok">TikTok</a>
+                <a href="#" aria-label="Twitter / X">Twitter / X</a>
+            </div>
+        </div>
+        <p class="footer-copy">&copy; 2026 Bing Bong Coffee. Crafted with potassium &amp; caffeine.</p>
     </footer>
 
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.475.0"></script>
     <script>
         lucide.createIcons();
+
+        (function () {
+            /* Mobile nav toggle */
+            var toggle = document.getElementById('nav-toggle');
+            var nav = document.getElementById('main-nav');
+            toggle.addEventListener('click', function () {
+                var open = nav.classList.toggle('open');
+                toggle.setAttribute('aria-expanded', open);
+            });
+            nav.querySelectorAll('a').forEach(function (a) {
+                a.addEventListener('click', function () {
+                    nav.classList.remove('open');
+                    toggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            /* Scroll-reveal animations */
+            var reveals = document.querySelectorAll('.reveal');
+            if ('IntersectionObserver' in window) {
+                var revealObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            revealObs.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.15 });
+                reveals.forEach(function (el) { revealObs.observe(el); });
+            } else {
+                reveals.forEach(function (el) { el.classList.add('visible'); });
+            }
+
+            /* Scroll-spy nav highlighting */
+            var sections = document.querySelectorAll('section[id]');
+            var navLinks = nav.querySelectorAll('a[href^="index.html#"]');
+            if ('IntersectionObserver' in window && sections.length) {
+                var spyObs = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            navLinks.forEach(function (link) { link.classList.remove('active'); });
+                            var match = nav.querySelector('a[href="index.html#' + entry.target.id + '"]');
+                            if (match) match.classList.add('active');
+                        }
+                    });
+                }, { rootMargin: '-30% 0px -60% 0px' });
+                sections.forEach(function (s) { spyObs.observe(s); });
+            }
+
+            /* Back to top */
+            var btt = document.getElementById('back-to-top');
+            window.addEventListener('scroll', function () {
+                btt.classList.toggle('show', window.scrollY > 400);
+            });
+            btt.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
         if (window.location.hash) {
             var target = document.querySelector(window.location.hash);
             if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
